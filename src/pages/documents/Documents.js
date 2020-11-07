@@ -1,27 +1,53 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Button, Grid, List, ListItem, ListItemText, Typography} from "@material-ui/core";
 import {useHistory} from 'react-router-dom';
+import Document from "./Document";
+import {documentService} from "../../services/DocumentService";
+import {NotifyMessage} from "../../actions/configActions";
+import {connect} from "react-redux";
+import {authManager} from "../../utils/AuthManager";
 
-const Documents = (props) => {
+
+const Documents = ({NotifyMessage}) => {
+    const [documents, setDocuments] = useState([]);
     const history = useHistory();
+
+    useEffect(()=>{
+        documentService.all()
+            .then(snapshot => setDocuments(snapshot.docs.map(item => {
+                return {
+                    id:item.id,
+                    cno:item.data().cno,
+                    description:item.data().description
+                }
+            })))
+            .catch(error => NotifyMessage(true, "error", error.message));
+    },[]);
+
+    const handleDelete=(id)=>{
+        documentService.deleteDoc(id)
+            .then(value=>{
+                const temp = documents.filter(item => item.id != id);
+                setDocuments(temp);
+                NotifyMessage(true, "success", "Document deleted successfully")
+            })
+            .catch(error => NotifyMessage(true, "error", error.message));
+
+    }
     return (
-        <Grid container={true} justify={"center"}>
+        <Grid container={true} justify={"center"} spacing={8}>
             <Grid item={true} container={true} justify={"space-between"}>
                 <Typography variant={"h6"}>Documents</Typography>
-                <Button onClick={e=>history.push("/app/documents/create")} color={"primary"} variant={"contained"}>New Document</Button>
+                <Button onClick={e => history.push("/app/documents/create")} color={"primary"} variant={"outlined"}>New Document</Button>
             </Grid>
-            <Grid>
-                <List>
-                    <ListItem>
-                        <ListItemText primary={"test"}/>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemText primary={"test"}/>
-                    </ListItem>
-                </List>
+            <Grid item={true} container={true} justify={"center"} spacing={8}>
+                {documents.map(doc => <Document onDelete={handleDelete} id={doc.id} description={doc.description} cno={doc.cno}/>)}
             </Grid>
 
         </Grid>
-    )
+    );
 }
-export default Documents;
+const mapDispatchToProps={
+  NotifyMessage
+}
+export default connect(null,mapDispatchToProps)(Documents);

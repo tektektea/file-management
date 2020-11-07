@@ -1,9 +1,10 @@
-import firebase from "firebase";
+import firebaseInstance from "./firebaseInstance";
+
 
 class AuthManager{
 
     constructor() {
-        this.authRef = firebase.auth;
+        this.authRef = firebaseInstance.firebase.auth;
         this.authenticate = false;
     }
 

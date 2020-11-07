@@ -1,13 +1,12 @@
 import {useDispatch} from "react-redux";
 import {NOTIFY} from "./constant";
 
-export const Notify=(notify,type,message)=>{
-    const dispatch=useDispatch();
-    dispatch({
+export const NotifyMessage=(notify,type,message)=>{
+    return {
         type:NOTIFY,
         payload:{
             notify,type,message
         }
-    })
+    }
 }
 

@@ -5,6 +5,8 @@ import Login from "./pages/auth/Login";
 import Admin from "./pages/Admin";
 import Register from "./pages/auth/Register";
 import {authManager} from "./utils/AuthManager";
+import Toast from "./components/Toast";
+require('dotenv').config();
 
 const style={
     root:{
@@ -27,6 +29,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 function App() {
   return (
     <div style={style.root}>
+        <Toast/>
       <Switch>
           <Route exact={true} path={"/"} component={Login}/>
           {/*<Route exact={true} path={"/app"} component={Admin}/>*/}

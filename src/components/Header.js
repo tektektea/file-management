@@ -94,6 +94,13 @@ export default function Header() {
         setAnchorEl(event.currentTarget);
     };
 
+    const handleSearch=e=>{
+        if (e.key === "Enter") {
+            let value=e.target.value;
+            history.push(`/app/dashboard/document/${value}`)
+        }
+    }
+
     const handleMobileMenuClose = () => {
         setMobileMoreAnchorEl(null);
     };
@@ -177,6 +184,7 @@ export default function Header() {
                             <SearchIcon />
                         </div>
                         <InputBase
+                            onKeyDown={handleSearch}
                             placeholder="Search…"
                             classes={{
                                 root: classes.inputRoot,

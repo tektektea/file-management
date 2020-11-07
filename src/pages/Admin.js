@@ -5,6 +5,7 @@ import {Route,Switch} from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Create from "./documents/Create";
 import Documents from "./documents/Documents";
+import Search from "./documents/Search";
 
 export default function Admin() {
 
@@ -13,6 +14,7 @@ export default function Admin() {
             <Header/>
             <main style={{margin:16}}>
                 <Switch>
+                    <Route exact={true} path={"/app/dashboard/document/:cno"} component={Search}/>
                     <Route exact={true} path={"/app/documents/create"} component={Create}/>
                     <Route exact={true} path={"/app/documents"} component={Documents}/>
                     <Route exact={true} path={"/app"} component={Dashboard}/>
