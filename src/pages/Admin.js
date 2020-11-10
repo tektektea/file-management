@@ -6,6 +6,7 @@ import Dashboard from "./Dashboard";
 import Create from "./documents/Create";
 import Documents from "./documents/Documents";
 import Search from "./documents/Search";
+import Edit from "./documents/Edit";
 
 export default function Admin() {
 
@@ -14,6 +15,7 @@ export default function Admin() {
             <Header/>
             <main style={{margin:16}}>
                 <Switch>
+                    <Route exact={true} path={"/app/dashboard/document/update/:id"} component={Edit}/>
                     <Route exact={true} path={"/app/dashboard/document/:cno"} component={Search}/>
                     <Route exact={true} path={"/app/documents/create"} component={Create}/>
                     <Route exact={true} path={"/app/documents"} component={Documents}/>

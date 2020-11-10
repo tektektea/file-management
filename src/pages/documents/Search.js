@@ -38,7 +38,7 @@ const Search=({NotifyMessage})=>{
                 <Typography variant={"h6"}>Search Result</Typography>
             </Grid>
             <Grid item={true} container={true} justify={"center"} spacing={8}>
-                {documents.map(doc => <Document onDelete={handleDelete} id={doc.id} description={doc.description} cno={doc.cno}/>)}
+                {documents.map(doc => <Document onDelete={handleDelete} id={doc.id} description={doc.description} cno={doc.id}/>)}
             </Grid>
 
         </Grid>

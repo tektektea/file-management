@@ -7,6 +7,10 @@ class DocumentService {
         this.storageRef = firebaseInstance.firebase.storage().ref()
     }
 
+    updateDoc=async (id,cno, description)=>{
+       return await this.documentRef.doc(id)
+            .update({cno,description, updated_at: new Date()})
+    }
     addDoc = (cno, description, file,onSuccess,onFail) => {
         this.documentRef.doc(cno).set({cno, description})
             .then(val => {
@@ -23,11 +27,9 @@ class DocumentService {
             .catch(onerror => onFail(onerror.message))
 
     }
-    updateDoc = (id, {cno, description}) => {
-        this.documentRef.doc(id)
-            .set({cno, description})
-            .then(value => console.log(value))
-            .catch(reason => console.error(reason));
+
+    deleteFile=async(id)=>{
+        return await this.storageRef.child(id).delete();
     }
     deleteDoc = async(id) => {
         return await this.documentRef.doc(id).delete()
@@ -37,6 +39,12 @@ class DocumentService {
     }
     search=async id=>{
         return await this.documentRef.doc(id).get();
+    }
+    getDocument= async id=>{
+        return await this.documentRef.doc(id).get();
+    }
+    downloadFile=async id=>{
+        return await this.storageRef.child(id).getDownloadURL();
     }
 }
 

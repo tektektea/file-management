@@ -5,7 +5,6 @@ import Document from "./Document";
 import {documentService} from "../../services/DocumentService";
 import {NotifyMessage} from "../../actions/configActions";
 import {connect} from "react-redux";
-import {authManager} from "../../utils/AuthManager";
 
 
 const Documents = ({NotifyMessage}) => {
@@ -27,6 +26,10 @@ const Documents = ({NotifyMessage}) => {
     const handleDelete=(id)=>{
         documentService.deleteDoc(id)
             .then(value=>{
+                documentService.deleteFile(id)
+                    .then(() => console.log("delete file"))
+                    .catch(error => console.error("delete file error", error));
+
                 const temp = documents.filter(item => item.id != id);
                 setDocuments(temp);
                 NotifyMessage(true, "success", "Document deleted successfully")
@@ -37,7 +40,7 @@ const Documents = ({NotifyMessage}) => {
     return (
         <Grid container={true} justify={"center"} spacing={8}>
             <Grid item={true} container={true} justify={"space-between"}>
-                <Typography variant={"h6"}>Documents</Typography>
+                <Typography variant={"h3"}>Documents</Typography>
                 <Button onClick={e => history.push("/app/documents/create")} color={"primary"} variant={"outlined"}>New Document</Button>
             </Grid>
             <Grid item={true} container={true} justify={"center"} spacing={8}>
